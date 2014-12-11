@@ -4,9 +4,6 @@ FROM ubuntu:14.10
 MAINTAINER Boggart <github.com/Boggart>
 ENV DEBIAN_FRONTEND noninteractive
 
-#a mounted file systems table to make MySQL happy
-RUN cat /proc/mounts > /etc/mtab
-
 # Install MariaDB from repository.
 RUN apt-get update && \
     apt-get install software-properties-common && \
