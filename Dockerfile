@@ -1,24 +1,22 @@
 #MariaDB (https://mariadb.org/)
 
-FROM phusion/baseimage:0.9.10
-MAINTAINER Ryan Seto <ryanseto@yak.net>
+FROM ubuntu:14.10
+MAINTAINER Boggart <github.com/Boggart>
+ENV DEBIAN_FRONTEND noninteractive
 
-# Ensure UTF-8
-RUN locale-gen en_US.UTF-8
-
-# Disable SSH (Not using it at the moment).
-RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
+#a mounted file systems table to make MySQL happy
+RUN cat /proc/mounts > /etc/mtab
 
 # Install MariaDB from repository.
-RUN echo "deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main" > /etc/apt/sources.list.d/mariadb.list && \
+RUN apt-get update && \
+    apt-get install software-properties-common && \
+    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
+    add-apt-repository 'deb http://mariadb.mirror.iweb.com//repo/10.0/ubuntu utopic main' && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes mariadb-server mariadb-server-5.5
+    apt-get install mariadb-server
 
 # Install other tools.
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y pwgen inotify-tools
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get install -y pwgen inotify-tools
 
 # Configure the database to use our data dir.
 RUN sed -i -e 's/^datadir\s*=.*/datadir = \/data/' /etc/mysql/my.cnf
@@ -38,5 +36,4 @@ RUN touch /firstrun
 # Expose our data, log, and configuration directories.
 VOLUME ["/data", "/var/log/mysql", "/etc/mysql"]
 
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init", "--", "/scripts/start.sh"]
+CMD ["/scripts/start.sh"]

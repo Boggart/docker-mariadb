@@ -1,5 +1,5 @@
 # Substitute your own docker index username, if you like.
-DOCKER_USER=paintedfox
+DOCKER_USER=boggart
 
 # Change this to suit your needs.
 NAME:=mariadb
