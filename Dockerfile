@@ -6,11 +6,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install MariaDB from repository.
 RUN apt-get update && \
-    apt-get install software-properties-common && \
+    apt-get install -y software-properties-common && \
     apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
-    add-apt-repository 'deb http://mariadb.mirror.iweb.com//repo/10.0/ubuntu utopic main' && \
+    add-apt-repository -y 'deb http://mariadb.mirror.iweb.com//repo/10.0/ubuntu utopic main' && \
     apt-get update && \
-    apt-get install mariadb-server
+    apt-get install -y mariadb-server
 
 # Install other tools.
 RUN apt-get install -y pwgen inotify-tools
