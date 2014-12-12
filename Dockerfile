@@ -12,6 +12,9 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y mariadb-server
 
+#disable syslog
+RUN rm /etc/mysql/conf.d/mysqld_safe_syslog.cnf
+
 # Install other tools.
 RUN apt-get install -y pwgen inotify-tools
 
