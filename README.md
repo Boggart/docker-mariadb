@@ -1,6 +1,6 @@
 # docker-mariadb
 
-A Dockerfile that produces a container that will run [MariaDB][mariadb] 10.0.15,
+A Dockerfile that produces a container that will run [MariaDB][mariadb] 10.0.22,
 a drop-in replacement for MySQL.
 
 [mariadb]: https://mariadb.org/
@@ -48,7 +48,7 @@ $ docker run -d -name="mariadb" \
              -v /tmp/mariadb:/data \
              -e USER="super" \
              -e PASS="$(pwgen -s -1 16)" \
-             paintedfox/mariadb
+             boggart/mariadb
 ```
 
 Alternately, you can run the following if you have *make* installed...
