@@ -1,22 +1,13 @@
 #MariaDB (https://mariadb.org/)
 
-FROM ubuntu:14.10
+FROM alpine:latest
 MAINTAINER Boggart <github.com/Boggart>
-ENV DEBIAN_FRONTEND noninteractive
 
 # Install MariaDB from repository.
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && \
-    add-apt-repository -y 'deb http://mariadb.mirror.iweb.com//repo/10.0/ubuntu utopic main' && \
-    apt-get update && \
-    apt-get install -y mariadb-server
+RUN apk install --no-cache mariadb pwgen inotify-tools
 
 #disable syslog
 RUN rm /etc/mysql/conf.d/mysqld_safe_syslog.cnf
-
-# Install other tools.
-RUN apt-get install -y pwgen inotify-tools
 
 # Configure the database to use our data dir.
 RUN sed -i -e 's/^datadir\s*=.*/datadir = \/data/' /etc/mysql/my.cnf
